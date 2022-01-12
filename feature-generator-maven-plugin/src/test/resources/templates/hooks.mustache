@@ -1,0 +1,15 @@
+package hooks;
+
+import cucumber.api.java.Before;
+import org.springframework.test.context.ContextConfiguration;
+import ru.vtb.at.context.configuration.CoreConfiguration;
+import ru.vtb.at.steps.BaseSteps;
+
+@ContextConfiguration(classes = {CoreConfiguration.class})
+public class Hooks extends BaseSteps {
+
+    @Before
+    public void setUp() {
+    }
+
+}

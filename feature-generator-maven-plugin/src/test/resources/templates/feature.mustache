@@ -1,0 +1,25 @@
+# language: ru
+# noinspection NonAsciiCharacters
+
+#{{{summary}}}
+Функция: {{testCaseName}}
+
+    @API
+    Сценарий: {{testCaseName}}{{^is401}}
+        Дано авторизоваться "{{authType}}"
+            {{authCredMap}}{{/is401}}
+        Если добавить base URI для сервиса "{{serviceName}}"{{#hasProduces}}
+        И добавить заголовки{{/hasProduces}}{{#hasConsumes}}
+            | Content-Type | {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}     |{{/hasConsumes}}{{#hasProduces}}
+            | Accept       | {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}} {{/produces}}|{{/hasProduces}}{{#hasPathParams}}
+        И добавить path параметры
+            {{{pathParamsMap}}}{{/hasPathParams}}{{#hasQueryParams}}
+        И добавить query параметры
+            {{{queryParamsMap}}}{{/hasQueryParams}}{{#hasRequestBody}}
+        И задать параметры для тела запроса
+            {{{requestBodyVariables}}}
+        И добавить тело запроса "{{shortPayloadPath}}"{{/hasRequestBody}}
+        И отправить запрос "{{httpMethod}}" по адресу "{{path}}" и получен ответ
+        То статус код "{{{response}}}"{{^-last}}{{/-last}}{{#hasResponseBody}}
+        И валидация ответа по JsonPath прошла успешно
+            {{{responseBodyVariables}}}{{/hasResponseBody}}
