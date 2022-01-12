@@ -4,14 +4,12 @@
 #{{{summary}}}
 Функция: {{testCaseName}}
 
-    @API
-    Сценарий: {{testCaseName}}{{^is401}}
-        Дано авторизоваться "{{authType}}"
-            {{authCredMap}}{{/is401}}
-        Если добавить base URI для сервиса "{{serviceName}}"{{#hasProduces}}
-        И добавить заголовки{{/hasProduces}}{{#hasConsumes}}
+    @Generated
+    Сценарий: {{testCaseName}}
+        Если добавить base URI "{{baseUrl}}"{{#hasHeaders}}
+        И добавить заголовки{{#hasConsumes}}
             | Content-Type | {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}     |{{/hasConsumes}}{{#hasProduces}}
-            | Accept       | {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}} {{/produces}}|{{/hasProduces}}{{#hasPathParams}}
+            | Accept       | {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}} {{/produces}}|{{/hasProduces}}{{/hasHeaders}}{{#hasPathParams}}
         И добавить path параметры
             {{{pathParamsMap}}}{{/hasPathParams}}{{#hasQueryParams}}
         И добавить query параметры
@@ -20,6 +18,7 @@
             {{{requestBodyVariables}}}
         И добавить тело запроса "{{shortPayloadPath}}"{{/hasRequestBody}}
         И отправить запрос "{{httpMethod}}" по адресу "{{path}}" и получен ответ
+
         То статус код "{{{response}}}"{{^-last}}{{/-last}}{{#hasResponseBody}}
         И валидация ответа по JsonPath прошла успешно
             {{{responseBodyVariables}}}{{/hasResponseBody}}

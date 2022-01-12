@@ -187,7 +187,7 @@ public class ApiTestsGenerator {
     private void writeFeatureFiles(List<Map<String, Object>> data, String outputDirectory) {
         TemplateManager manager = getTemplateManager();
         for (Map<String, Object> map : data) {
-            String fullOutputDirectory = outputDirectory + PATH_DELIMITER.getConstant() + map.get("notes").toString()
+            String fullOutputDirectory = outputDirectory + PATH_DELIMITER.getConstant() + map.get("tag").toString()
                     .replaceAll(CYRILLIC.getRegex(), UNDERSCORE.getConstant())
                     .replaceAll(PART_OF_PATH.getRegex(), UNDERSCORE.getConstant()) + PATH_DELIMITER.getConstant();
             File output = new File(fullOutputDirectory, map.get("testCaseName") + ".feature");
@@ -235,8 +235,8 @@ public class ApiTestsGenerator {
                         .setCodegenOperation(codegenOperation)
                         .setRequestBodyExample(requestBodyExamples != null ? requestBodyExamples.get(0).get("example") : null)
                         .setName(createName(path, httpMethod, statusCode))
-                        .setConsumes(consumes != null ? consumes.get(0).get("mediaType") : "")
-                        .setProduce(produces != null ? produces.get(0).get("mediaType") : "")
+                        .setConsumes(consumes != null ? consumes.get(0).get("mediaType") : null)
+                        .setProduce(produces != null ? produces.get(0).get("mediaType") : null)
                         .setResponseBodyExample(responseBodyExamples != null ? responseBodyExamples.get(0).get("example") : null)
                         .setBaseUrl(baseUrl);
                 featureModels.add(featureModel);
@@ -270,6 +270,8 @@ public class ApiTestsGenerator {
             data.put("testCaseName", featureModel.getName());
             data.put("tag", featureModel.getTag());
             data.put("requestBodyExample", featureModel.getRequestBodyExample());
+            data.put("baseUrl", featureModel.getBaseUrl());
+            data.put("hasHeaders", featureModel.getConsumes() != null || featureModel.getProduce() != null);
 
             if (Boolean.TRUE.equals(generateAdditionalFiles)) {
                 data.put("groupId", groupId);

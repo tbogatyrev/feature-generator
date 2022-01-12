@@ -14,6 +14,7 @@ class ApiTestsGeneratorTest {
         String path = "src/test/resources/petstore.json";
 
         new ApiTestsGenerator(URI.create(path))
+                .setDirectoryToGeneratePayloadTemplates("src/test/resources/payloads/")
                 .generate();
 
 
