@@ -7,13 +7,21 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
 import static java.util.Objects.requireNonNull;
+import static ru.lanit.generator.enums.RegexEnum.SERVICE_NAME_REGEX;
 
 public class SwaggerDownloader {
 
-    public void getSwaggerSpec(URI uri, String directoryOutput) {
+    private String swaggerFileLocation;
+
+    public void download(URI uri, String directoryOutput) {
         ApiClient apiClient = new ApiClient();
         String responseBody = apiClient.setURI(uri).get().send();
-        writeSwaggerSpec(directoryOutput, responseBody);
+        swaggerFileLocation = directoryOutput + uri.getHost().replaceAll(SERVICE_NAME_REGEX.getRegex(), "") + ".json";
+        writeSwaggerSpec(swaggerFileLocation, responseBody);
+    }
+
+    public String getSwaggerFileLocation() {
+        return swaggerFileLocation;
     }
 
     private void writeSwaggerSpec(String directoryOutput, String swaggerSpec) {

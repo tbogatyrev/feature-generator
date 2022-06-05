@@ -16,7 +16,7 @@ class UtilsTest {
     @Test
     void getServiceName() {
         String path = "src/test/resources/petstore.json",
-                swaggerPath = Utils.getSwaggerPath(URI.create(path));
+                swaggerPath = Utils.getSwaggerLocation(URI.create(path));
 
         OpenAPI openAPI = new OpenAPIParser()
                 .readLocation(swaggerPath, null, new ParseOptions()).getOpenAPI();
@@ -37,7 +37,7 @@ class UtilsTest {
     void getDownloadedSwagger() {
         String url = "https://petstore.swagger.io/v2/swagger.json",
                 path = "src/main/resources/swagger.json";
-        Utils.getSwaggerPath(URI.create(url), path);
+        Utils.getSwaggerLocation(URI.create(url), path);
 
         assertTrue(new File(path).exists(), "Файл " + path + " отсутствует");
 
@@ -50,7 +50,7 @@ class UtilsTest {
     @Test
     void getExistsSwagger() {
         String path = "src/test/resources/petstore.json",
-                swaggerPath = Utils.getSwaggerPath(URI.create(path));
+                swaggerPath = Utils.getSwaggerLocation(URI.create(path));
 
         assertEquals(path, swaggerPath, "Файл " + path + " отсутствует");
 

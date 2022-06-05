@@ -71,9 +71,7 @@ public class GeneratorMojo extends AbstractMojo {
                     testsGenerator.setProjectVersion(pomValues.get("projectVersion").toString());
                 }
             }
-
             testsGenerator.generate();
-
         } catch (Exception e) {
             getLog().error(e);
             throw new MojoExecutionException(

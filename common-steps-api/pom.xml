@@ -17,6 +17,13 @@
         <allure-cucumber-jvm.version>2.12.1</allure-cucumber-jvm.version>
         <allure.rest.assured.version>2.12.1</allure.rest.assured.version>
         <rest-assured.version>4.4.0</rest-assured.version>
+        <assertj.version>3.22.0</assertj.version>
+        <jsonpath.version>2.6.0</jsonpath.version>
+        <commons-io.version>2.6</commons-io.version>
+        <pdf-test.version>1.7.0</pdf-test.version>
+        <xls-test.version>1.4.3</xls-test.version>
+        <opencsv.version>5.5.2</opencsv.version>
+        <owner.version>1.0.12</owner.version>
     </properties>
 
     <dependencies>
@@ -51,9 +58,41 @@
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <version>${rest-assured.version}</version>
-            <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${jsonpath.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>pdf-test</artifactId>
+            <version>${pdf-test.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>xls-test</artifactId>
+            <version>${xls-test.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>${opencsv.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aeonbits.owner</groupId>
+            <artifactId>owner</artifactId>
+            <version>${owner.version}</version>
+        </dependency>
     </dependencies>
-
 </project>

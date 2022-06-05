@@ -63,9 +63,7 @@ public class ReflectionsUtil {
                 }
 
                 @Override
-                public void close() {
-
-                }
+                public void close() {}
             };
         }
     }

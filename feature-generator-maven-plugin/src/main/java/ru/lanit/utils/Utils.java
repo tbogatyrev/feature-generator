@@ -36,19 +36,18 @@ public class Utils {
         return filePath.replaceAll(DIRECTORY_REGEX.getRegex(), "");
     }
 
-    public static String getSwaggerPath(URI uri, String pathToDownload) {
+    public static String getSwaggerLocation(URI uri, String pathToDownload) {
         if (uri.getScheme() != null && uri.getScheme().contains("http")) {
-            new SwaggerDownloader().getSwaggerSpec(uri, pathToDownload);
-
-            return pathToDownload;
+            SwaggerDownloader swaggerDownloader = new SwaggerDownloader();
+            swaggerDownloader.download(uri, pathToDownload);
+            return swaggerDownloader.getSwaggerFileLocation();
         } else {
-
             return uri.getRawPath();
         }
     }
 
-    public static String getSwaggerPath(URI uri) {
-        return getSwaggerPath(uri, "");
+    public static String getSwaggerLocation(URI uri) {
+        return getSwaggerLocation(uri, "");
     }
 
     public static void createDirectoriesIfNotExist(String directory) {

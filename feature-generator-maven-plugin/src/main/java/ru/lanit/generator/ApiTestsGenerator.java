@@ -104,10 +104,10 @@ public class ApiTestsGenerator {
         }
         createDirectoriesIfNotExist(getDirectory(pathToDownloadSwagger));
 
-        String swaggerPath = getSwaggerPath(uri, pathToDownloadSwagger);
+        String swaggerPathLocation = getSwaggerLocation(uri, pathToDownloadSwagger);
 
         openAPI = new OpenAPIParser()
-                .readLocation(swaggerPath, null, new ParseOptions()).getOpenAPI();
+                .readLocation(swaggerPathLocation, null, new ParseOptions()).getOpenAPI();
 
         String serviceName = getServiceName(openAPI);
 
@@ -252,7 +252,6 @@ public class ApiTestsGenerator {
                 .replaceAll(PATH_DELIMITER.getConstant(), UNDERSCORE.getConstant()) + UNDERSCORE.getConstant() + httpMethod + UNDERSCORE.getConstant() + statusCode;
     }
 
-
     private void generateBodyRequestVariables(JsonNode node) {
         generatePayloadsVariables(node, "", bodyRequestVariables);
     }
@@ -332,7 +331,6 @@ public class ApiTestsGenerator {
                         ? ((Map<String, Object>) params).get("example")
                         : "no example"
         ));
-
         return pathParamsMap;
     }
 }

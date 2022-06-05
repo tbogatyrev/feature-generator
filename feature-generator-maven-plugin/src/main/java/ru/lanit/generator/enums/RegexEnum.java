@@ -6,7 +6,7 @@ public enum RegexEnum {
     CYRILLIC ("[^\\w^А-Яа-я]"),
     PART_OF_PATH("_{2,}");
 
-    String regex;
+    private final String regex;
 
     RegexEnum(String s) {
         this.regex = s;
