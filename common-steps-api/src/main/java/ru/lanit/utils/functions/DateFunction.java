@@ -1,5 +1,8 @@
 package ru.lanit.utils.functions;
 
+import ru.lanit.utils.functions.models.DateParamsModel;
+import ru.lanit.utils.functions.parsers.DateParamsParser;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -23,7 +26,7 @@ public class DateFunction implements Function {
 
     @Override
     public String execute(List<String> parameterList) {
-        DateParamsModel paramsModel = new DateParamsParser(parameterList).parse();
+        DateParamsModel paramsModel = DateParamsParser.parse(parameterList);
         if (!paramsModel.hasOffset() && !paramsModel.hasFormat()) {
             return LocalDateTime.now().format(DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT));
         } else if (paramsModel.hasOffset() && !paramsModel.hasFormat()) {

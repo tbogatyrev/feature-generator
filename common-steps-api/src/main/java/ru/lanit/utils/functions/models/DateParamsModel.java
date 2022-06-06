@@ -1,4 +1,4 @@
-package ru.lanit.utils.functions;
+package ru.lanit.utils.functions.models;
 
 import java.time.temporal.ChronoUnit;
 

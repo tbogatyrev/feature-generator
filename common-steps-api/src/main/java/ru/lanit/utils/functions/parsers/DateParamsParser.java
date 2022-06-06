@@ -1,4 +1,7 @@
-package ru.lanit.utils.functions;
+package ru.lanit.utils.functions.parsers;
+
+import ru.lanit.utils.functions.OffsetUnit;
+import ru.lanit.utils.functions.models.DateParamsModel;
 
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -6,13 +9,7 @@ import java.util.List;
 
 public class DateParamsParser {
 
-    private final List<String> params;
-
-    public DateParamsParser(List<String> params) {
-        this.params = params;
-    }
-
-    public DateParamsModel parse() {
+    public static DateParamsModel parse(List<String> params) {
         String[] dateParams = params.get(0).split("\\s");
         if (params.size() == 1) {
             if (params.get(0).equals("сегодня")) {
@@ -42,7 +39,7 @@ public class DateParamsParser {
         throw new RuntimeException();
     }
 
-    private ChronoUnit getChronoUnit(String desc) {
+    private static ChronoUnit getChronoUnit(String desc) {
         return Arrays.stream(OffsetUnit.values())
                 .filter(value -> desc.startsWith(value.getIdent()))
                 .findFirst()
