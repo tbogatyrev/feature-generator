@@ -7,10 +7,8 @@ import io.cucumber.java.ru.И;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import ru.lanit.config.ProjectConfigHelper;
+import ru.lanit.steps.types.SmartMapContainer;
 
-import java.util.Map;
-
-import static ru.lanit.utils.VariableUtils.replaceMapsVariablesFromStash;
 import static ru.lanit.utils.VariableUtils.replaceVariablesFromStash;
 import static ru.lanit.utils.files.FileUtils.readFileToString;
 import static ru.lanit.utils.storage.Stash.STASH;
@@ -20,37 +18,34 @@ public class RequestSteps extends BaseSteps {
     @Если("добавить base URI")
     public void addBaseUriFromProperties() {
         String baseUri = ProjectConfigHelper.getBaseUrl();
-        RequestSpecification specification = getRequestSpecification()
-                .baseUri(baseUri);
+        RequestSpecification specification = getRequestSpecification().baseUri(baseUri);
         STASH.put("specification", specification);
         LOGGER.info("Добавлен base uri: {}", baseUri);
     }
 
-    @Если("добавить base URI {string}")
+    @Если("добавить base URI {smartString}")
     public void addBaseUri(String baseUri) {
-        RequestSpecification specification = getRequestSpecification()
-                .baseUri(baseUri);
+        RequestSpecification specification = getRequestSpecification().baseUri(baseUri);
         STASH.put("specification", specification);
         LOGGER.info("Добавлен base uri: {}", baseUri);
     }
 
     @Если("добавить заголовки")
-    public void addHeaders(Map<String, String> headers) {
+    public void addHeaders(SmartMapContainer mapContainer) {
         RequestSpecification specification = STASH.getAs("specification");
-        specification
-                .headers(headers);
+        specification.headers(mapContainer.getSmartMap());
         STASH.put("specification", specification);
-        LOGGER.info("Добавлены заголовки: {}", headers.toString());
+        LOGGER.info("Добавлены заголовки: {}", mapContainer.getSmartMap().toString());
     }
 
-    @И("добавить тело запроса {string}")
+    @И("добавить тело запроса {smartString}")
     public void addPayload(String payloadTemplatePath) {
         String payload = readFileToString(payloadTemplatePath);
         RequestSpecification specification = STASH.getAs("specification");
-//        specification.body(replaceFunctionsInString(replaceVariablesFromStash(payload)));
+        specification.body(replaceVariablesFromStash(payload));
     }
 
-    @И("отправить запрос {string} по адресу {string} и получен ответ")
+    @И("отправить запрос {smartString} по адресу {smartString} и получен ответ")
     public void sendRequestAndReceiveResponse(String httpMethod, String path) {
         RequestSpecification specification = STASH.getAs("specification");
         specification.basePath(path);
@@ -59,37 +54,33 @@ public class RequestSteps extends BaseSteps {
     }
 
     @И("добавить query параметры")
-    public void setQueryParams(Map<String, String> queryParams) {
-        Map<String, String> replacedQueryParams = replaceMapsVariablesFromStash(queryParams);
-        queryParams.forEach((key, value) -> replacedQueryParams.put(key, replaceVariablesFromStash(value)));
-        STASH.put("queryParams", replacedQueryParams);
+    public void setQueryParams(SmartMapContainer queryParams) {
+        STASH.put("queryParams", queryParams.getSmartMap());
         RequestSpecification specification = STASH.getAs("specification");
-        specification.queryParams(replacedQueryParams);
-        LOGGER.info("Добавлены query параметры: {}", replacedQueryParams.toString());
+        specification.queryParams(queryParams.getSmartMap());
+        LOGGER.info("Добавлены query параметры: {}", queryParams.getSmartMap().toString());
     }
 
     @И("добавить path параметры")
-    public void setPathParams(Map<String, String> pathParams) {
-        Map<String, String> replacedPathParams = replaceMapsVariablesFromStash(pathParams);
-        pathParams.forEach((key, value) -> replacedPathParams.put(key, replaceVariablesFromStash(value)));
-        STASH.put("queryParams", replacedPathParams);
+    public void setPathParams(SmartMapContainer pathParams) {
+        STASH.put("pathParams", pathParams.getSmartMap());
         RequestSpecification specification = STASH.getAs("specification");
-        specification.pathParams(replacedPathParams);
-        LOGGER.info("Добавлены path параметры: {}", replacedPathParams.toString());
+        specification.pathParams(pathParams.getSmartMap());
+        LOGGER.info("Добавлены path параметры: {}", pathParams.getSmartMap().toString());
     }
 
-    @И("заменяю переменные в ответе {string} и сохраняю в переменную {string}")
-    public void changeValuesInResponse(String responseName, String requestName, Map<String, String> values) {
+    @И("заменяю переменные в ответе {smartString} и сохраняю в переменную {smartString}")
+    public void changeValuesInResponse(String responseName, String requestName, SmartMapContainer values) {
         Response response = STASH.getAs(responseName);
         DocumentContext context = JsonPath.parse(response.body());
-        values.forEach(context::set);
+        values.getSmartMap().forEach(context::set);
         STASH.put(requestName, context.jsonString());
     }
 
-    @И("добавляю тело запроса из переменной {string}")
+    @И("добавляю тело запроса из переменной {smartString}")
     public void addPayloadFromVariable(String variableName) {
         String payload = STASH.getAsString(variableName);
         RequestSpecification specification = STASH.getAs("specification");
-//        specification.body(replaceFunctionsInString(replaceVariablesFromStash(payload)));
+        specification.body(replaceVariablesFromStash(payload));
     }
 }

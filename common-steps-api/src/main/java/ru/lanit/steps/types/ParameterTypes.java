@@ -1,15 +1,16 @@
-package ru.lanit.steps;
+package ru.lanit.steps.types;
 
 import io.cucumber.java.ParameterType;
-import ru.lanit.utils.FunctionUtils;
+
+import static ru.lanit.utils.FunctionUtils.replaceFunction;
 
 public class ParameterTypes {
 
     @ParameterType(
-            value = ".*",
+            value = "\"(.*)\"",
             name = "smartString"
     )
     public String smartString(String gherkinFunction) {
-        return FunctionUtils.replaceFunction(gherkinFunction);
+        return replaceFunction(gherkinFunction);
     }
 }

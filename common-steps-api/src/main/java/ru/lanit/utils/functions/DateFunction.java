@@ -52,7 +52,7 @@ public class DateFunction implements Function {
                         .minus(Long.parseLong(model.getOffset()), requireNonNull(model.getOffsetDescription()))
                         .format(DateTimeFormatter.ofPattern(model.getFormat()));
             default:
-                throw new RuntimeException("Неверный оператор " + model.getOperator());
+                throw new IllegalArgumentException("Неверный оператор " + model.getOperator());
         }
     }
 }

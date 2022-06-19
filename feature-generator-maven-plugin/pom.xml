@@ -8,8 +8,8 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>feature-generator-maven-plugin</artifactId>
+    <packaging>maven-plugin</packaging>
 
     <properties>
         <compiler.version>11</compiler.version>
@@ -24,7 +24,6 @@
         <build.number>-1</build.number>
         <okhttp.version>4.9.3</okhttp.version>
         <json-smart.version>2.4.7</json-smart.version>
-        <json-path.version>2.6.0</json-path.version>
         <junit-jupiter.version>5.8.2</junit-jupiter.version>
         <reflections.versions>0.10.2</reflections.versions>
     </properties>
@@ -64,11 +63,6 @@
             <groupId>net.minidev</groupId>
             <artifactId>json-smart</artifactId>
             <version>${json-smart.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <version>${json-path.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

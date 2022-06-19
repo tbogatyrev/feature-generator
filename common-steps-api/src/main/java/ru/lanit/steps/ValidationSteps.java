@@ -24,7 +24,7 @@ public class ValidationSteps extends BaseSteps {
 
     private static final Logger LOGGER = LogManager.getLogger(ValidationSteps.class);
 
-    @То("статус код {string}")
+    @То("статус код {smartString}")
     public void checkHttpCode(String httpCode) {
         Response response = STASH.getAs("response");
         String actualHttpCode = String.valueOf(response.statusCode());
@@ -44,7 +44,7 @@ public class ValidationSteps extends BaseSteps {
         });
     }
 
-    @И("ответ содержит {string}")
+    @И("ответ содержит {smartString}")
     public void responseBodyContainsDescription(String description) {
         Response response = STASH.getAs("response");
         LOGGER.info("Получено тело ответа {}", response.body().asString());
@@ -52,7 +52,7 @@ public class ValidationSteps extends BaseSteps {
         LOGGER.info("Ответ содержит {}", description);
     }
 
-    @И("файл {string} содержит")
+    @И("файл {smartString} содержит")
     public void checkFile(String fileType, List<String> data) throws IOException, CsvException, BadLocationException {
         Response response = STASH.getAs("response");
         InputStream fileStream = response.asInputStream();

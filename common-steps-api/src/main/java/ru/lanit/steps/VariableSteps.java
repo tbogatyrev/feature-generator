@@ -3,6 +3,7 @@ package ru.lanit.steps;
 import com.jayway.jsonpath.JsonPath;
 import io.cucumber.java.ru.И;
 import io.restassured.response.Response;
+import ru.lanit.steps.types.SmartMapContainer;
 
 import java.util.Map;
 
@@ -11,8 +12,8 @@ import static ru.lanit.utils.storage.Stash.STASH;
 public class VariableSteps extends BaseSteps {
 
     @И("использую тестовые данные")
-    public void useTestData(Map<String, String> values) {
-//        values.forEach((key, value) -> STASH.put(key, replaceFunctionsInString(value)));
+    public void useTestData(SmartMapContainer values) {
+        values.getSmartMap().forEach(STASH::put);
     }
 
     @И("сохраняю значения из ответа по JPath")
