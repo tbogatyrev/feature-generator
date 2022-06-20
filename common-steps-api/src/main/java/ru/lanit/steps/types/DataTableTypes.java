@@ -14,7 +14,8 @@ public class DataTableTypes {
     public SmartMapContainer mapContainer(DataTable dataTable) {
         SmartMapContainer smartMap = new SmartMapContainer();
         List<String> dataList = dataTable.values();
-        IntStream.range(0, dataList.size() - 1).forEach(ind -> smartMap.getSmartMap().put(dataList.get(ind), replaceFunction(dataList.get(ind + 1))));
+        IntStream.iterate(0, i -> i < dataList.size() - 1, i -> i + 2)
+                .forEach(i -> smartMap.getSmartMap().put(dataList.get(i), replaceFunction(dataList.get(i + 1))));
         return smartMap;
     }
 }

@@ -138,23 +138,25 @@ public class ApiTestsGenerator {
     private void writeAdditionalFiles(List<Map<String, Object>> dataSource) {
         TemplateManager manager = getTemplateManager();
         File
-                outputTestRunner = new File(DIRECTORY_TO_GENERATE_TEST_RUNNER.getPath(), "TestRunner.java"),
-                outputDefaultProperties = new File(DIRECTORY_TO_GENERATE_RESOURCE.getPath(), "default.properties"),
-                outputCredentials = new File(DIRECTORY_TO_GENERATE_RESOURCE.getPath(), "credentials.yml"),
+                outputTestRunner = new File(DIRECTORY_TO_GENERATE_TEST_RUNNER.getPath(), "RunnerTest.java"),
+                outputDefaultProperties = new File(DIRECTORY_TO_GENERATE_RESOURCE.getPath(), "project.properties"),
                 outputAllureProperties = new File(DIRECTORY_TO_GENERATE_RESOURCE.getPath(), "allure.properties"),
+                outputCucumberProperties = new File(DIRECTORY_TO_GENERATE_RESOURCE.getPath(), "cucumber.properties"),
                 outputHooks = new File(DIRECTORY_TO_GENERATE_HOOKS.getPath(), "Hooks.java"),
-                outputPom = new File("pom.xml");
+                outputPom = new File("pom.xml"),
+                gitignore=new File(".gitignore");
 
         Map<String, Object> map = dataSource.get(0);
         try {
             manager.write(map, "testRunner.mustache", outputTestRunner);
-            manager.write(map, "defaultProperties.mustache", outputDefaultProperties);
-            manager.write(map, "credentials.mustache", outputCredentials);
+            manager.write(map, "projectProperties.mustache", outputDefaultProperties);
 
             createDirectoriesIfNotExist(DIRECTORY_TO_GENERATE_HOOKS.getPath());
             manager.write(map, "hooks.mustache", outputHooks);
             manager.write(map, "pom.mustache", outputPom);
+            manager.write(map, "gitignore.mustache", gitignore);
             manager.write(map, "allureProperties.mustache", outputAllureProperties);
+            manager.write(map, "cucumberProperties.mustache", outputCucumberProperties);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -291,7 +293,7 @@ public class ApiTestsGenerator {
                 generateBodyRequestVariables(node);
                 data.put("hasRequestBody", true);
                 Map<String, Object> requestExamplesMap = new TreeMapForGherkinTable<>();
-                bodyRequestVariables.forEach(requestExamplesMap::put);
+                requestExamplesMap.putAll(bodyRequestVariables);
                 data.put("requestBodyVariables", requestExamplesMap);
             } else {
                 data.put("hasRequestBody", false);
