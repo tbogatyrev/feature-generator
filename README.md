@@ -19,7 +19,7 @@
 		<pomValues>
 			<groupId>org.example</groupId>
 			<artifactId>test-feature-generator</artifactId>
-			<projectVersion>1.0-SNAPSHOT</projectVersion>
+			<projectVersion>1.0</projectVersion>
 		</pomValues>
 	</configuration>
 	<executions>
