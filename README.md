@@ -3,9 +3,10 @@
 ## Генерация .feature файлов на основе Swagger
 
 1. Создать новый maven проект;
-2. Добавить мавен-плагин [feature-generator-maven-plugin](#plugin);
-3. [Добавить конфигурацию](#plugin_config);
-4. Использовать команду mvn install.
+2. Добавить мавен-плагин в pom.xml созданного проекта [feature-generator-maven-plugin](#plugin);
+3. Настроить [конфигурацию](#plugin_config) плагина;
+4. Обновить зависимости;
+5. Использовать команду mvn install.
 
 ## Maven plugin <a name="plugin"></a>
 ```
@@ -19,7 +20,7 @@
 		<pomValues>
 			<groupId>org.example</groupId>
 			<artifactId>test-feature-generator</artifactId>
-			<projectVersion>1.0</projectVersion>
+			<projectVersion>1.0-SNAPSHOT</projectVersion>
 		</pomValues>
 	</configuration>
 	<executions>
