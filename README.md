@@ -2,6 +2,11 @@
 
 ## Генерация .feature файлов на основе Swagger
 
+### Вариант 1
+1. Склонировать [демо](https://github.com/tbogatyrev/test-feature-generator) проект;
+2. Выполнить mvn install.
+
+### Вариант 2
 1. Создать новый maven проект;
 2. Добавить мавен-плагин в pom.xml созданного проекта [feature-generator-maven-plugin](#plugin);
 3. Настроить [конфигурацию](#plugin_config) плагина;
