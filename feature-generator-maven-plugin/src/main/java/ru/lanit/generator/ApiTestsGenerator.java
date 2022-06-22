@@ -231,7 +231,7 @@ public class ApiTestsGenerator {
             add200CodeIfNotExist(responses);
             responses.entrySet().removeIf(e -> e.getKey().contains("default"));
 
-            if (statusCodes != null) {
+            if (statusCodes != null && statusCodes.length != 0) {
                 Set<String> setCodes = new HashSet<>(Arrays.asList(statusCodes));
                 responses.keySet().retainAll(setCodes);
             }

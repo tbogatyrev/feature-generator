@@ -56,7 +56,7 @@ public class GeneratorMojo extends AbstractMojo {
             URI uri = swaggerPath != null ? create(swaggerPath) : create(swaggerUrl);
 
             testsGenerator = new ApiTestsGenerator(uri);
-            if (statusCodes != null) {
+            if (statusCodes != null && statusCodes.length != 0) {
                 testsGenerator.setStatusCodes(statusCodes);
             }
             if (Boolean.TRUE.equals(generateAdditionalFiles)) {
