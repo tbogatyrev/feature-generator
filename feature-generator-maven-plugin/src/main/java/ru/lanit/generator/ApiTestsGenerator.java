@@ -3,6 +3,8 @@ package ru.lanit.generator;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.jetbrains.annotations.NotNull;
 import org.openapitools.codegen.CodegenOperation;
@@ -21,10 +23,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static ru.lanit.generator.enums.Constants.PATH_DELIMITER;
 import static ru.lanit.generator.enums.Constants.UNDERSCORE;
@@ -52,6 +52,8 @@ public class ApiTestsGenerator {
             groupId,
             artifactId,
             projectVersion;
+
+    private String [] statusCodes;
 
     private boolean generateAdditionalFiles = false;
     private final URI uri;
@@ -94,6 +96,11 @@ public class ApiTestsGenerator {
 
     public ApiTestsGenerator setProjectVersion(String projectVersion) {
         this.projectVersion = projectVersion;
+        return this;
+    }
+
+    public ApiTestsGenerator setStatusCodes(String [] statusCodes) {
+        this.statusCodes = statusCodes;
         return this;
     }
 
@@ -219,7 +226,17 @@ public class ApiTestsGenerator {
         openAPI.getPaths().forEach((path, pathItem) -> pathItem.readOperationsMap().forEach((method, operation) -> {
             String httpMethod = method.name();
             CodegenOperation codegenOperation = codegen.fromOperation(path, String.valueOf(method), operation, null);
-            operation.getResponses().forEach((statusCode, response) -> {
+
+            ApiResponses responses = operation.getResponses();
+            add200CodeIfNotExist(responses);
+            responses.entrySet().removeIf(e -> e.getKey().contains("default"));
+
+            if (statusCodes != null) {
+                Set<String> setCodes = new HashSet<>(Arrays.asList(statusCodes));
+                responses.keySet().retainAll(setCodes);
+            }
+
+            responses.forEach((statusCode, response) -> {
                 FeatureModel featureModel = new FeatureModel();
 
                 List<Map<String, String>>
@@ -245,6 +262,17 @@ public class ApiTestsGenerator {
             });
         }));
         return featureModels;
+    }
+
+    private void add200CodeIfNotExist(ApiResponses responses) {
+        List<String> list = responses.keySet().stream()
+                .filter(code -> code.startsWith("2"))
+                .collect(Collectors.toList());
+        if (list.size() == 0) {
+            ApiResponse apiResponse = new ApiResponse();
+            apiResponse.description("Default");
+            responses.addApiResponse("200", apiResponse);
+        }
     }
 
     @NotNull

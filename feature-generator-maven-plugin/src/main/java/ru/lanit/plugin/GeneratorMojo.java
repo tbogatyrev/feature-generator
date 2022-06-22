@@ -29,6 +29,9 @@ public class GeneratorMojo extends AbstractMojo {
     @Parameter(name = "pathToDownloadSwagger", property = "feature.generator.maven.plugin.pathToDownloadSwagger")
     private String pathToDownloadSwagger;
 
+    @Parameter(name = "statusCodes", property = "feature.generator.maven.plugin.statusCodes")
+    private String [] statusCodes;
+
     @Parameter(name = "generateAdditionalFiles", property = "feature.generator.maven.plugin.generateAdditionalFiles")
     private boolean generateAdditionalFiles;
 
@@ -53,6 +56,9 @@ public class GeneratorMojo extends AbstractMojo {
             URI uri = swaggerPath != null ? create(swaggerPath) : create(swaggerUrl);
 
             testsGenerator = new ApiTestsGenerator(uri);
+            if (statusCodes != null) {
+                testsGenerator.setStatusCodes(statusCodes);
+            }
             if (Boolean.TRUE.equals(generateAdditionalFiles)) {
 
                 testsGenerator.generateAdditionalFiles();
