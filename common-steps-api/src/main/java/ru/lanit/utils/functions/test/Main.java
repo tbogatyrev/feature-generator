@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 public class Main {
 
+    //todo convert to tests
     public static void main(String[] args) {
         ParameterTypes parameterTypes = new ParameterTypes();
         DataTableTypes dataTableTypes = new DataTableTypes();
