@@ -16,7 +16,7 @@ public class SwaggerDownloader {
     public void download(URI uri, String directoryOutput) {
         ApiClient apiClient = new ApiClient();
         String responseBody = apiClient.setURI(uri).get().send();
-        swaggerFileLocation = directoryOutput + uri.getHost().replaceAll(SERVICE_NAME_REGEX.getRegex(), "") + ".json";
+        swaggerFileLocation = directoryOutput + (uri.getHost().matches("(([0-9]{1,3}[\\.]){3}[0-9]{1,3})") ? "service" : uri.getHost().replaceAll(SERVICE_NAME_REGEX.getRegex(), "")) + ".json";
         writeSwaggerSpec(swaggerFileLocation, responseBody);
     }
 

@@ -21,7 +21,10 @@ public class Utils {
     public static String getServiceName(OpenAPI openAPI) {
         String name = null;
         try {
-            name = URI.create(openAPI.getServers().get(0).getUrl())
+            String serviceUrl = openAPI.getServers().get(0).getUrl();
+            name = serviceUrl.equals("/")
+                    ? "service"
+                    : URI.create(serviceUrl)
                     .toURL()
                     .getHost()
                     .replaceAll(SERVICE_NAME_REGEX.getRegex(), "");
